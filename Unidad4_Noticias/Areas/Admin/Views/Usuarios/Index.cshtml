@@ -1,0 +1,196 @@
+﻿@model Unidad4_Noticias.Areas.Admin.Models.AdminUsuariosIndexViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using System.Security.Claims
+@{
+    Layout = "_Layout";
+}
+
+@if(Model.NuevoUsuario != null)
+{
+    <div class="modal" id="addUserModal" style="display:flex">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Agregar Reportero</h3>
+                <a href="#" class="modal-close" data-modal="addUserModal">&times;</a>
+            </div>
+            <form method="post" action="~/Admin/Usuarios/Crear">
+                <div class="modal-body">
+                    @Html.ValidationSummary()
+
+                    <div class="form-group">
+                        <label for="newUsername" class="form-label required">Nombre de usuario</label>
+                        <input type="text" id="newUsername" asp-for="NuevoUsuario.Username" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newEmail" class="form-label required">Correo electrónico</label>
+                        <input type="email" id="newEmail" asp-for="NuevoUsuario.Email" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newPassword" class="form-label required">Contraseña</label>
+                        <input type="password" id="newPassword" asp-for="NuevoUsuario.Password" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword" class="form-label required">Confirmar contraseña</label>
+                        <input type="password" id="confirmPassword" asp-for="NuevoUsuario.ConfirmPassword" class="form-input" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="modal-link modal-cancel" data-modal="addUserModal">Cancelar</a>
+                    <button type="submit" class="modal-link modal-confirm">Crear Usuario</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+@if(Model.UsuarioEditar != null)
+{
+    <div class="modal" id="editUserModal" style="display:flex">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Editar Reportero</h3>
+                <a href="#" class="modal-close" data-modal="editUserModal">&times;</a>
+            </div>
+            <form method="post" action="~/Admin/Usuarios/Editar">
+                <div class="modal-body">
+                    @Html.ValidationSummary()
+
+                    <input type="hidden" asp-for="UsuarioEditar.UserId" id="editUserId">
+
+                    <div class="form-group">
+                        <label for="editUsername" class="form-label required">Nombre de usuario</label>
+                        <input type="text" id="editUsername" asp-for="UsuarioEditar.Username" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editEmail" class="form-label required">Correo electrónico</label>
+                        <input type="email" id="editEmail" asp-for="UsuarioEditar.Email" class="form-input" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="modal-link modal-cancel" data-modal="editUserModal">Cancelar</a>
+                    <button type="submit" class="modal-link modal-confirm">Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+@if(Model.CambioPassword != null)
+{
+    <div class="modal" id="changePasswordModal" style="display:flex">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Cambiar Contraseña</h3>
+                <a href="#" class="modal-close" data-modal="changePasswordModal">&times;</a>
+            </div>
+            <form method="post" action="~/Admin/Usuarios/CambiarPassword">
+                <div class="modal-body">
+                    @Html.ValidationSummary()
+
+                    <input type="hidden" asp-for="CambioPassword.UserId" id="passwordUserId">
+
+                    <div class="form-group">
+                        <label for="newUserPassword" class="form-label required">Nueva contraseña</label>
+                        <input type="password" id="newUserPassword" asp-for="CambioPassword.NewPassword" class="form-input" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmUserPassword" class="form-label required">Confirmar contraseña</label>
+                        <input type="password" id="confirmUserPassword" asp-for="CambioPassword.ConfirmPassword" class="form-input" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="modal-link modal-cancel" data-modal="changePasswordModal">Cancelar</a>
+                    <button type="submit" class="modal-link modal-confirm">Cambiar Contraseña</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+@if(Model.UsuarioEliminar != null)
+{
+    <div class="modal" id="deleteUserModal" style="display:flex">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Eliminar Reportero</h3>
+                <a href="#" class="modal-close" data-modal="deleteUserModal">&times;</a>
+            </div>
+            <form method="post" action="~/Admin/Usuarios/Eliminar">
+                <div class="modal-body">
+                    @Html.ValidationSummary()
+
+                    <input type="hidden" asp-for="UsuarioEliminar.UserId" id="deleteUserId">
+
+                    <p>¿Estás seguro de que quieres eliminar al reportero <strong id="deleteUserName">@Model.UsuarioEliminar.UserName</strong>?</p>
+                    <p style="color: var(--color-danger); font-size: 0.9rem; margin-top: 0.5rem;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Esta acción no se puede deshacer.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="modal-link modal-cancel" data-modal="deleteUserModal">Cancelar</a>
+                    <button type="submit" class="modal-link modal-delete">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+
+<div class="page-header">
+    <h1 class="page-title">Gestión de Reporteros</h1>
+    <a href="~/Admin/Usuarios/Crear" class="add-user-button" data-modal="addUserModal">
+        <i class="fas fa-user-plus"></i>
+        Agregar Reportero
+    </a>
+</div>
+
+<div class="users-table-container">
+    <table class="users-table">
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Correo Electrónico</th>
+                <th>Fecha de Registro</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reportero in Model.Usuarios)
+            {
+                <tr>
+                    <td>@reportero.Username</td>
+                    <td>@reportero.Email</td>
+
+                    <td>@reportero.FechaRegistro</td>
+                    <td>
+                        <div class="user-actions">
+                            <a href="~/Admin/Usuarios/Editar/@(reportero.Id)" class="action-link edit-link">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <a href="~/Admin/Usuarios/CambiarPassword/@(reportero.Id)" class="action-link password-link">
+                                <i class="fas fa-key"></i> Password
+                            </a>
+                            @{
+                                int.TryParse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, out int mId);
+
+                                if (mId != reportero.Id)
+                                {
+                                    <a href="~/Admin/Usuarios/Eliminar/@(reportero.Id)" class="action-link delete-link">
+                                        <i class="fas fa-trash"></i> Eliminar
+                                    </a>
+                                }  
+                            }
+                            
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

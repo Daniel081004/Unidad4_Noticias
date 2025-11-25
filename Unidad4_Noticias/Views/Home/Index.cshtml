@@ -1,0 +1,39 @@
+﻿@model Unidad4_Noticias.Models.ViewModels.IndexViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "_Layout";
+}
+<form method="post" action="~/Home/Index">
+    <section class="search-section">
+        <div class="search-container">
+            <input asp-for="SearchQuery" type="text" class="search-input" placeholder="Buscar noticias...">
+            <button type="submit" class="search-icon">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+    </section>
+</form>
+
+<div class="news-grid">
+    @if (Model.Noticias != null)
+    {
+        @foreach (var noticia in Model.Noticias)
+        {
+            <a href="~/Home/Details/@noticia.Titulo.Replace(" ","-")" class="news-card">
+                <div class="card-grid">
+                    <div class="news-image-container">
+                        <img src="~/images/@(noticia).jpg" class="news-image">
+                    </div>
+
+                    <h3 class="news-title">@noticia.Titulo</h3>
+
+                    <div class="news-meta">
+                        <span class="meta-item">
+                            <i class="fas fa-user-edit"></i> @noticia.Autor
+                        </span>
+                    </div>
+                </div>
+            </a>
+        }
+    }
+</div>

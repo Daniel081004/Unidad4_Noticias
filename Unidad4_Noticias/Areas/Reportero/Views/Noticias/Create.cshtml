@@ -1,0 +1,122 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+
+@section HeaderButtons {
+    <a href="javascript:history.back()" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        <span>Volver</span>
+    </a>
+}
+
+<h1 class="page-title">Crear Nueva Noticia</h1>
+
+<form class="news-form" id="newsForm" method="post" action="~/Reportero/Noticias/Create">
+    <div class="form-group">
+        <label for="title" class="form-label required">Título de la noticia</label>
+        <input type="text" id="title" name="title" class="form-input" placeholder="Ingresa el título de la noticia" required>
+        <div class="error-message" id="titleError">El título es obligatorio</div>
+    </div>
+
+    <div class="form-group">
+        <label for="eventDate" class="form-label">Fecha del evento</label>
+        <input type="date" id="eventDate" name="eventDate" class="form-input date-input">
+    </div>
+
+    <div class="form-group">
+        <label class="form-label">Imagen principal</label>
+        <div class="image-upload" id="imageUpload">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <div class="image-upload-text">Haz clic para subir una imagen</div>
+            <div class="image-upload-hint">Formatos: JPG, PNG, GIF (Máx. 5MB)</div>
+            <input type="file" id="image" name="image" class="file-input" accept="image/*">
+        </div>
+        <div class="image-preview" id="imagePreview">
+            <img src="" alt="Vista previa" class="preview-image" id="previewImage">
+            <div class="image-upload-hint" style="margin-top: 0.5rem;">Haz clic en el área para cambiar la imagen</div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="editor" class="form-label required">Contenido de la noticia</label>
+        <textarea id="editor" name="content" style="display: none;"></textarea>
+        <div class="error-message" id="contentError">El contenido es obligatorio</div>
+    </div>
+
+    <div class="form-actions">
+        <a href="~/Reportero/Noticias" class="action-button cancel-button">
+            <i class="fas fa-times"></i>
+            Cancelar
+        </a>
+        <button type="submit" class="action-button publish-button">
+            <i class="fas fa-paper-plane"></i>
+            Publicar Noticia
+        </button>
+    </div>
+</form>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
+
+<script>
+    // Inicializar CKEditor
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            toolbar: {
+                items: [
+                    'heading', '|',
+                    'bold', 'italic', 'underline', 'strikethrough', '|',
+                    'link', 'bulletedList', 'numberedList', '|',
+                    'outdent', 'indent', '|',
+                    'blockQuote', 'insertTable', '|',
+                    'undo', 'redo'
+                ]
+            },
+            language: 'es',
+            placeholder: 'Escribe el contenido de la noticia aquí...',
+        })
+        .then(editor => {
+            window.editor = editor;
+
+            editor.model.document.on('change:data', () => {
+                document.querySelector('#editor').value = editor.getData();
+            });
+        })
+        .catch(error => {
+            console.error(error);
+            const editorElement = document.querySelector('#editor');
+            editorElement.style.display = 'block';
+            editorElement.classList.add('form-input', 'form-textarea');
+            editorElement.placeholder = 'Escribe el contenido de la noticia aquí...';
+        });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const imageUpload = document.getElementById('imageUpload');
+        const imageInput = document.getElementById('image');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImage = document.getElementById('previewImage');
+
+        imageUpload.addEventListener('click', function() {
+            imageInput.click();
+        });
+
+        imageInput.addEventListener('change', function(e) {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    imageUpload.style.display = 'none';
+                }
+
+                reader.readAsDataURL(this.files[0]);
+            }
+        });
+
+        imagePreview.addEventListener('click', function() {
+            imageInput.click();
+        });
+
+
+    });
+</script>

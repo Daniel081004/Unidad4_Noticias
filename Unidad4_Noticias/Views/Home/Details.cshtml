@@ -1,0 +1,109 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+
+
+
+@section HeaderButtons {
+    <a href="~/Home/Index" class="back-button">
+        <i class="fas fa-arrow-left"></i>
+        <span>Volver</span>
+    </a>
+}
+
+
+<article class="news-header">
+    <h1 class="news-title">La IA General podría estar más cerca de lo que los expertos pensaban</h1>
+
+    <div class="news-meta">
+        <span class="meta-item">
+            <i class="fas fa-user-edit"></i> Juan Pérez
+        </span>
+        <span class="meta-item">
+            <i class="far fa-calendar"></i> 15 de Diciembre, 2024
+        </span>
+    </div>
+
+    <div class="news-actions">
+        <a href="editar-noticia.html" class="action-button edit-button">
+            <i class="fas fa-edit"></i>
+            Editar Noticia
+        </a>
+        <button class="action-button delete-button" data-type="noticia" data-id="1">
+            <i class="fas fa-trash"></i>
+            Eliminar Noticia
+        </button>
+    </div>
+
+    <div class="news-image-container">
+        <img src="https://placehold.co/800x300/8b5cf6/ffffff?text=Inteligencia+Artificial" alt="Inteligencia Artificial" class="news-image">
+    </div>
+</article>
+
+<section class="news-content">
+    <p>Los recientes avances en modelos de lenguaje han sorprendido incluso a los investigadores más escépticos. Lo que antes parecía estar a décadas de distancia, ahora podría materializarse en los próximos años.</p>
+
+    <p>El Dr. Alejandro Martínez, investigador principal del proyecto, comentó: "Estamos viendo capacidades emergentes que no fueron programadas explícitamente. Los modelos están desarrollando razonamiento abstracto de formas que no anticipamos completamente."</p>
+
+    <p>Este avance tiene implicaciones significativas para campos como la medicina, la educación y la investigación científica. Sin embargo, también plantea importantes cuestiones éticas que la comunidad científica está abordando activamente.</p>
+
+    <p>El equipo continuará monitoreando el desarrollo de estas capacidades mientras trabajan en frameworks de seguridad robustos para garantizar que la tecnología beneficie a la humanidad de manera responsable.</p>
+</section>
+
+<section class="comments-section">
+    <h2 class="comments-title">Comentarios</h2>
+
+    <form class="comment-form">
+        <textarea class="comment-input" placeholder="Escribe tu comentario..." required></textarea>
+        <button type="submit" class="submit-button">Publicar Comentario</button>
+    </form>
+
+    <div class="comments-list">
+
+        <div class="comment">
+            <div class="comment-header">
+                <div class="comment-author">
+                    <span>María García</span>
+                    <span class="comment-badge">Reportero</span>
+                </div>
+                <span class="comment-date">Hace 2 horas</span>
+            </div>
+            <p class="comment-content">Excelente artículo! Me gustaría saber más sobre las medidas de seguridad que están implementando.</p>
+
+            <div class="comment-actions">
+                <button class="delete-comment" data-type="comentario" data-id="101">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="comment">
+            <div class="comment-header">
+                <div class="comment-author">
+                    <span>Carlos López</span>
+                </div>
+                <span class="comment-date">Hace 1 día</span>
+            </div>
+            <p class="comment-content">Interesante perspectiva. ¿Creen que esto afectará el mercado laboral en el corto plazo?</p>
+
+            <div class="comment-actions">
+                <button class="delete-comment" data-type="comentario" data-id="102">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<div class="modal" id="confirmModal" >
+        <form>
+            <h3 class="modal-title" id="modalTitle">Confirmar eliminación</h3>
+            <p class="modal-message" id="modalMessage">¿Estás seguro de que quieres eliminar este elemento?</p>
+            <div class="modal-actions">
+                <button class="modal-button modal-cancel" id="modalCancel">Cancelar</button>
+                <button class="modal-button modal-confirm" id="modalConfirm">Eliminar</button>
+            </div>
+        </form>
+</div>

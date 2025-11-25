@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias ITESRC</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 class="site-title">Noticias ITESRC</h1>
+            <nav class="user-menu">
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <button class="menu-button" id="menuButton">
+                        <span>@User.Identity.Name</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+
+                    <div class="menu-dropdown" id="menuDropdown">
+                        <a href="~/Account/Logout" class="menu-item">
+                            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                        </a>
+                    </div>
+                }
+                @RenderSection("HeaderButtons", false)
+
+            </nav>
+
+        </div>
+    </header>
+    <main class="main-content">
+        @RenderBody()
+    </main>
+    @if(User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <nav class="bottom-nav">
+            <div class="nav-container">
+                <a href="~/Home/Index" class="nav-icon active">
+                    <i class="fas fa-home"></i>
+                    <span class="nav-label">Inicio</span>
+                </a>
+                <a href="~/Reportero/Noticias" class="nav-icon">
+                    <i class="fas fa-newspaper"></i>
+                    <span class="nav-label">Mis Noticias</span>
+                </a>
+                <a href="~/Reportero/Noticias/Create" class="nav-icon">
+                    <i class="fas fa-plus-circle"></i>
+                    <span class="nav-label">Nueva</span>
+                </a>
+                @if (User.IsInRole("Admin"))
+                {
+                    <a href="~/Admin/Usuarios/" class="nav-icon">
+                        <i class="fas fa-users-cog"></i>
+                        <span class="nav-label">Usuarios</span>
+                    </a>
+                }
+            </div>
+        </nav>
+    }
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const menuButton = document.getElementById('menuButton');
+            const menuDropdown = document.getElementById('menuDropdown');
+
+            if(menuButton){
+                menuButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                menuDropdown.classList.toggle('show');
+            });
+
+            document.addEventListener('click', function() {
+                menuDropdown.classList.remove('show');
+            });
+
+            menuDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+            }
+            
+        });
+    </script>
+</body>
+</html>
