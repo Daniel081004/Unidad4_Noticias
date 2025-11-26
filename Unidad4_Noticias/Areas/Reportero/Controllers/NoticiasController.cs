@@ -31,14 +31,31 @@ namespace Unidad4_Noticias.Areas.Reportero.Controllers
         [HttpPost]
         public IActionResult Create(ReporteroNoticiasCreateViewModel vm)
         {
-            if(!ModelState.IsValid)
+            if (vm.Imagen != null)
+            {
+                if (vm.Imagen.ContentType != "image/jpg" && vm.Imagen.ContentType != "image/png" && vm.Imagen.ContentType != "image/gif" && vm.Imagen.ContentType != "image/jpeg")
+                {
+                    ModelState.AddModelError("", "El formato de imagen no esta permito");
+                }
+                if(vm.Imagen.Length > 5 * 1024 * 1024)/*5mb*/
+                {
+                    ModelState.AddModelError("", "El tamaño de la imagen no debe superar los 5MB");
+                }
+            }
+            if (ModelState.IsValid)
             {
                 int.TryParse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, out int mId);
                 int idNoticia = noticiasService.CrearNoticia(vm, mId);
+                
                 if(vm.Imagen != null && idNoticia != 0)
                 {
-                    /**/
+                    var extension = Path.GetExtension(vm.Imagen.FileName);
+                    Directory.CreateDirectory("wwwroot/uploads");
+                    FileStream archivoImagen = System.IO.File.Create("wwwroot/uploads/" + idNoticia + extension);
+                    vm.Imagen.CopyTo(archivoImagen);
+                    archivoImagen.Close();
                 }
+
                 return RedirectToAction("Index");
             }
             return View(vm);

@@ -2,6 +2,7 @@
 using Unidad4_Noticias.Models.ViewModels;
 using Unidad4_Noticias.Areas.Reportero.Models;
 using Unidad4_Noticias.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace Unidad4_Noticias.Services
 {
@@ -23,7 +24,8 @@ namespace Unidad4_Noticias.Services
 
         public IndexViewModel GetNoticiasIndex(string? searchQuery = null)
         {
-            var noticias = _noticiasRepo.GetAll()
+            var noticias = _noticiasRepo.GetAll().AsQueryable()
+                .Include(x => x.Usuario)
                 .Where(n => n.Activa == true)
                 .OrderByDescending(n => n.FechaPublicacion);
 

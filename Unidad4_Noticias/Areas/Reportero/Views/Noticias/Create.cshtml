@@ -1,4 +1,6 @@
-﻿@{
+﻿@model Unidad4_Noticias.Areas.Reportero.Models.ReporteroNoticiasCreateViewModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
     Layout = "_Layout";
 }
 
@@ -12,16 +14,16 @@
 
 <h1 class="page-title">Crear Nueva Noticia</h1>
 
-<form class="news-form" id="newsForm" method="post" action="~/Reportero/Noticias/Create">
+<form class="news-form" id="newsForm" method="post" action="~/Reportero/Noticias/Create" enctype="multipart/form-data">
     <div class="form-group">
         <label for="title" class="form-label required">Título de la noticia</label>
-        <input type="text" id="title" name="title" class="form-input" placeholder="Ingresa el título de la noticia" required>
+        <input type="text" id="title" asp-for="Titulo" class="form-input" placeholder="Ingresa el título de la noticia" required>
         <div class="error-message" id="titleError">El título es obligatorio</div>
     </div>
 
     <div class="form-group">
         <label for="eventDate" class="form-label">Fecha del evento</label>
-        <input type="date" id="eventDate" name="eventDate" class="form-input date-input">
+        <input type="date" id="eventDate" asp-for="FechaEvento" class="form-input date-input">
     </div>
 
     <div class="form-group">
@@ -30,7 +32,7 @@
             <i class="fas fa-cloud-upload-alt"></i>
             <div class="image-upload-text">Haz clic para subir una imagen</div>
             <div class="image-upload-hint">Formatos: JPG, PNG, GIF (Máx. 5MB)</div>
-            <input type="file" id="image" name="image" class="file-input" accept="image/*">
+            <input type="file" id="image" asp-for="Imagen" class="file-input" accept="image/*">
         </div>
         <div class="image-preview" id="imagePreview">
             <img src="" alt="Vista previa" class="preview-image" id="previewImage">
@@ -40,11 +42,12 @@
 
     <div class="form-group">
         <label for="editor" class="form-label required">Contenido de la noticia</label>
-        <textarea id="editor" name="content" style="display: none;"></textarea>
+        <textarea id="editor" asp-for="Contenido" style="display: none;"></textarea>
         <div class="error-message" id="contentError">El contenido es obligatorio</div>
     </div>
 
     <div class="form-actions">
+        @Html.ValidationSummary()
         <a href="~/Reportero/Noticias" class="action-button cancel-button">
             <i class="fas fa-times"></i>
             Cancelar

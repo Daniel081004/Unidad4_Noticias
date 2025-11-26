@@ -22,7 +22,11 @@
             <a href="~/Home/Details/@noticia.Titulo.Replace(" ","-")" class="news-card">
                 <div class="card-grid">
                     <div class="news-image-container">
-                        <img src="~/images/@(noticia).jpg" class="news-image">
+                        @{
+                            //Leer la imagen en upload
+                            var archivo = Directory.GetFiles("wwwroot/uploads", noticia.Id + ".*").Select(x=>System.IO.Path.GetFileName(x)).FirstOrDefault();
+                        }
+                        <img src="~/uploads/@(archivo)" class="news-image">
                     </div>
 
                     <h3 class="news-title">@noticia.Titulo</h3>
