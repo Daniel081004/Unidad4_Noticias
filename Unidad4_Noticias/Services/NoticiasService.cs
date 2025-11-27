@@ -52,13 +52,14 @@ namespace Unidad4_Noticias.Services
             };
         }
 
-        public DetailsViewModel? GetNoticiaDetails(int id)
+        public DetailsViewModel? GetNoticiaDetails(string titulo)
         {
-            var noticia = _noticiasRepo.Get(id);
+            titulo = titulo.Replace("-", " ");
+            var noticia = _noticiasRepo.GetAll().AsQueryable().Include(x => x.Usuario).Where(x=>x.Titulo == titulo).FirstOrDefault();
             if (noticia == null || noticia.Activa == false) return null;
 
             var comentarios = _comentariosRepo.GetAll()
-                .Where(c => c.NoticiaId == id && c.Activo == true)
+                .Where(c => c.NoticiaId == noticia.Id && c.Activo == true)
                 .OrderByDescending(c => c.FechaComentario)
                 .Select(c => new ComentarioModel
                 {

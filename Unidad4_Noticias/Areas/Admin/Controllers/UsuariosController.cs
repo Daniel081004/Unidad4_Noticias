@@ -21,6 +21,7 @@ namespace Unidad4_Noticias.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            ViewBag.Vistas = "Usuarios";
             var vm = usuariosService.GetUsuariosAdmin();
             return View(vm);
         }

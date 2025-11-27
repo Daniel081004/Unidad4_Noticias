@@ -21,11 +21,15 @@ namespace Unidad4_Noticias.Areas.Reportero.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View();
+            ViewBag.Vistas = "Noticias";
+            int.TryParse(User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value, out int mId);
+            var vm = noticiasService.GetNoticiasByUsuario(mId);
+            return View(vm);
         }
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.Vistas = "Crear";
             return View();
         }
         [HttpPost]

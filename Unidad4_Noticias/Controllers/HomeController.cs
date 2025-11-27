@@ -15,6 +15,7 @@ namespace Unidad4_Noticias.Controllers
         [HttpGet]
         public IActionResult Index()
         {
+            ViewBag.Vistas = "Inicio";
             var noticias = noticiasService.GetNoticiasIndex();
             return View(noticias);
         }
@@ -24,9 +25,10 @@ namespace Unidad4_Noticias.Controllers
             var noticias = noticiasService.GetNoticiasIndex(vm.SearchQuery);
             return View(noticias);
         }
-        public IActionResult Details(int id)
+        public IActionResult Details(string id)/*Nombre*/
         {
-            return View();
+            var vm = noticiasService.GetNoticiaDetails(id);
+            return View(vm);
         }
     }
 }
