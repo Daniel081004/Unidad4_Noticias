@@ -57,7 +57,8 @@
     <h2 class="comments-title">Comentarios</h2>
 
     <form class="comment-form" method="post" action="~/Home/Comentar">
-        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="Id" value="@Model.Id" />
+        <input type="hidden" asp-for="Titulo"/>
         <textarea asp-for="NuevoComentario.Contenido" class="comment-input" placeholder="Escribe tu comentario..." required></textarea>
         <button  type="submit" class="submit-button">Publicar Comentario</button>
     </form>

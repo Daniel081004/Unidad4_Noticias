@@ -44,7 +44,7 @@ namespace Unidad4_Noticias.Controllers
                 noticiasService.AgregarComentario(vm.Id, vm.NuevoComentario?.Contenido ?? "", null);
 
             }
-            return RedirectToAction("Details", new { id = vm.Id });
+            return RedirectToAction("Details", new { id = vm.Titulo.Replace(" ", "-") });
         }
     }
 }
