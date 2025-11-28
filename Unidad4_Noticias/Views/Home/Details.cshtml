@@ -26,7 +26,7 @@
 			<i class="far fa-calendar"></i> @Model.FechaPublicacion.ToString("dd 'de' MMMM 'de' yyyy")
         </span>
     </div>
-    @if (User.IsInRole("Admin") || User.Identity.Name == Model.Autor)
+    @if (User.IsInRole("Admin") || User.Identity?.Name == Model.Autor)
     {
         <div class="news-actions">
             <a href="~/Reportero/Noticias/Edit/@(Model.Id)" class="action-button edit-button">
@@ -57,6 +57,7 @@
     <h2 class="comments-title">Comentarios</h2>
 
     <form class="comment-form" method="post" action="~/Home/Comentar">
+        <input type="hidden" asp-for="Id" />
         <textarea asp-for="NuevoComentario.Contenido" class="comment-input" placeholder="Escribe tu comentario..." required></textarea>
         <button  type="submit" class="submit-button">Publicar Comentario</button>
     </form>
